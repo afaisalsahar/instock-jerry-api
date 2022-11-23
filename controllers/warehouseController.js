@@ -64,3 +64,20 @@ exports.addNew = (req, res) => {
             res.status(400).send(`Error creating Warehouse: ${err}`); // 400 Bad Request response status
         })
 }
+
+// Get warehouse inventories
+exports.warehouseInventories = (req, res) => {
+    knex('inventories')
+      .select("id", "warehouse_id", "item_name", "description", "category", "status", "quantity")  
+      .where({ warehouse_id: req.params.id })
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) =>
+        res
+          .status(400)
+          .send(
+            `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
+          )
+      );
+  };
