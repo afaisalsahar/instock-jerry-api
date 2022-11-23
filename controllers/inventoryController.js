@@ -1,8 +1,9 @@
 const knex = require('knex')(require('../knexfile'));
 
-exports.getAll = (_req, res) => {
+exports.getAll = (req, res) => {
     knex('inventories')
-        .select('id', 'warehouse_id', 'item_name', 'description', 'category', 'status', 'quantity')
+        .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
+        .select('inventories.id', 'warehouses.warehouse_name', 'inventories.warehouse_id', 'inventories.item_name', 'inventories.description', 'inventories.category', 'inventories.status', 'inventories.quantity')
         .then((data) => {
             res.status(200).json(data);
         })
