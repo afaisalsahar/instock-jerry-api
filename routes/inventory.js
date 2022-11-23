@@ -1,14 +1,13 @@
 // require variables
 const express = require('express');
 const fs = require('fs');
+const inventoryController = require('../controllers/inventoryController');
 
 const router  = express.Router();
 
 router
     .route('/')
-    .get((req, res) => {
-
-    })
+    .get(inventoryController.getAll)
     .post((req, res) => {
 
     })

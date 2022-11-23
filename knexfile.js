@@ -8,7 +8,7 @@ const { DB_LOCAL_NAME, DB_LOCAL_USER, DB_LOCAL_PASS, DB_LOCAL_HOST } =
  * @type { Object.<string, import("knex").Knex.Config> }
  */
 module.exports = {
-  development: {
+
     client: "mysql2",
     connection: {
       host: DB_LOCAL_HOST,
@@ -16,6 +16,5 @@ module.exports = {
       password: DB_LOCAL_PASS,
       database: DB_LOCAL_NAME,
       charset: "utf8",
-    },
   },
 };
