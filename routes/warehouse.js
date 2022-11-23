@@ -3,7 +3,6 @@ const express = require('express');
 const router  = express.Router();
 
 // Controllers
-// const warehouseController = require('../controllers/warehouseController');
 const warehouseController = require('../controllers/warehouseController')
 
 router
