@@ -7,11 +7,9 @@ const warehouseController = require('../controllers/warehouseController')
 
 router
     .route('/')
-    .get(warehouseController.getAll)
-    // .post((req, res) => {
-
-    // })
-
+        .get(warehouseController.getAll)
+        .post(warehouseController.addNew); // CREATE new warehouse
+        
 router
     .route('/:id')
     .get((req, res) => {
