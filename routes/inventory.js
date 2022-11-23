@@ -1,6 +1,5 @@
 // require variables
 const express = require('express');
-const fs = require('fs');
 const inventoryController = require('../controllers/inventoryController');
 
 const router  = express.Router();
@@ -20,8 +19,6 @@ router
     .put((req, res) => {
 
     })
-    .delete((req, res) => {
+    .delete(inventoryController.deleteItem); // Delete inventory item, given ID. 
 
-    })
-        
 module.exports = router;
