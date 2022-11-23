@@ -1,5 +1,6 @@
 const knex = require('knex')(require('../knexfile'));
 
+// get list of all inventory items
 exports.getAll = (req, res) => {
     knex('inventories')
         .join('warehouses', 'warehouses.id', 'inventories.warehouse_id')
