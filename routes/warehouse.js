@@ -1,17 +1,17 @@
 // require variables
 const express = require('express');
-const fs = require('fs');
-
 const router  = express.Router();
+
+// Controllers
+// const warehouseController = require('../controllers/warehouseController');
+const warehouseController = require('../controllers/warehouseController')
 
 router
     .route('/')
-    .get((req, res) => {
+    .get(warehouseController.getAll)
+    // .post((req, res) => {
 
-    })
-    .post((req, res) => {
-
-    })
+    // })
 
 router
     .route('/:id')
