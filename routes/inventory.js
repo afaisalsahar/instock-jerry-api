@@ -17,9 +17,9 @@ router
     .get((req, res) => {
 
     })
-    .put((req, res) => {
+    .put(inventoryController.updateInventory)
+    
 
-    })
     .delete((req, res) => {
 
     })
