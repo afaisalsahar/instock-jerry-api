@@ -79,72 +79,64 @@ exports.addNew = (req, res) => {
 
 // Get warehouse inventories
 exports.warehouseInventories = (req, res) => {
-    knex('inventories')
-      .select("id", "warehouse_id", "item_name", "description", "category", "status", "quantity")  
-      .where({ warehouse_id: req.params.id })
-      .then((data) => {
-        res.status(200).json(data);
-      })
-      .catch((err) =>
-        res
-          .status(400)
-          .send(
-            `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
-          )
-      );
-  };
+  knex("inventories")
+    .select(
+      "id",
+      "warehouse_id",
+      "item_name",
+      "description",
+      "category",
+      "status",
+      "quantity"
+    )
+    .where({ warehouse_id: req.params.id })
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) =>
+      res
+        .status(400)
+        .send(
+          `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
+        )
+    );
+};
 
 // DELETE Warehouse
-  exports.deleteWarehouse = (req, res) => {
-    knex('warehouses')
-    .where({id: req.params.id})
-    .then((data) => {
-        !data.length ? 
-        res.status(404).send('Warehouse ID is not found') :
-        knex('warehouses')
-        .del()
-        .where({id: req.params.id})
-        .then(() => {
-            res.sendStatus(204);
-        })
-        .catch((error) => {
-            res.status(400).send(`Invalid warehouse: ${error}`);
-        });
-    })
-    .catch((error) => {
-        res.status(404).send(`Invalid warehouse ID: ${error}`);
-    })
-};
-  exports.warehouseInventories = (req, res) => {
-    knex("inventories")
-      .select(
-        "id",
-        "warehouse_id",
-        "item_name",
-        "description",
-        "category",
-        "status",
-        "quantity"
-      )
-      .where({ warehouse_id: req.params.id })
-      .then((data) => {
-        res.status(200).json(data);
-      })
-      .catch((err) =>
-        res
-          .status(400)
-          .send(
-            `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
-          )
-      );
-  };
-
-// Get single warehouse details
-exports.getSingleWarehouse = (req, res) => {
+exports.deleteWarehouse = (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
     .then((data) => {
-      res.status(200).json(data[0]);
+      !data.length
+        ? res.status(404).send("Warehouse ID is not found")
+        : knex("warehouses")
+            .del()
+            .where({ id: req.params.id })
+            .then(() => {
+              res.sendStatus(204);
+            })
+            .catch((error) => {
+              res.status(400).send(`Invalid warehouse: ${error}`);
+            });
+    })
+    .catch((error) => {
+      res.status(404).send(`Invalid warehouse ID: ${error}`);
+    });
+};
+
+// Get single warehouse details
+exports.getSingleWarehouse = (req, res) => {
+  const { id } = req.params;
+
+  knex("warehouses")
+    .where({ id: req.params.id })
+    .then((data) => {
+      if (data.length === 0)
+        return res
+          .status(400)
+          .json({ message: `Warehouse ${id} does not exist` });
+
+      return res.status(200).json(data[0]);
     })
     .catch((err) =>
       res
