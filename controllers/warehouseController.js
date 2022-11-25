@@ -81,3 +81,25 @@ exports.warehouseInventories = (req, res) => {
           )
       );
   };
+
+// DELETE Warehouse
+  exports.deleteWarehouse = (req, res) => {
+    knex('warehouses')
+    .where({id: req.params.id})
+    .then((data) => {
+        !data.length ? 
+        res.status(404).send('Warehouse ID is not found') :
+        knex('warehouses')
+        .del()
+        .where({id: req.params.id})
+        .then(() => {
+            res.sendStatus(204);
+        })
+        .catch((error) => {
+            res.status(400).send(`Invalid warehouse: ${error}`);
+        });
+    })
+    .catch((error) => {
+        res.status(404).send(`Invalid warehouse ID: ${error}`);
+    })
+}

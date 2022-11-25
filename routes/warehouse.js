@@ -12,18 +12,10 @@ router
         
 router
     .route('/:id')
-    .get((req, res) => {
-
-    })
-    .put((req, res) => {
-
-    })
-    .delete((req, res) => {
-
-    })
+        .delete(warehouseController.deleteWarehouse);
 
 router
     .route('/:id/inventories')
-    .get(warehouseController.warehouseInventories); // GET list of inventories for a specific warehouse
+        .get(warehouseController.warehouseInventories); // GET list of inventories for a specific warehouse
 
 module.exports = router;
