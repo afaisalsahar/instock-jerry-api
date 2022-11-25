@@ -1,6 +1,14 @@
+<<<<<<< HEAD
+const { param } = require('../routes/warehouse');
+const { v4: uuid } = require("uuid");
+const knex = require('knex')(require('../knexfile'));
+=======
 const { param } = require("../routes/warehouse");
 
 const knex = require("knex")(require("../knexfile"));
+>>>>>>> develop
+
+const warehouseController = require("./warehouseController");
 
 // get list of all inventory items
 exports.getAll = (req, res) => {
@@ -97,6 +105,57 @@ exports.deleteItem = (req, res) => {
             });
     })
     .catch((error) => {
+<<<<<<< HEAD
+        res.status(404).send(`Invalid inventory ID: ${error}`); // 404 not found status
+    })
+}
+
+// create a new inventory item
+
+exports.addInventoryItem = (req, res) => {
+    if (!req.body.item_name || !req.body.description ||
+        !req.body.category || !req.body.status ||
+        !req.body.warehouse_id || !req.body.quantity
+    ) {
+        res.status(400).send('All fields are required');
+    }
+
+    knex("warehouses")
+    .where({ id: req.body.warehouse_id })
+    .then((data) => {
+        if(data.length !== 0) {
+            const newInventory = {
+                id: uuid(),
+                item_name: req.body.item_name,
+                description: req.body.description,
+                category: req.body.category,
+                status: req.body.status,
+                warehouse_id: req.body.warehouse_id,
+                quantity: req.body.quantity
+            }
+            knex('inventories')
+            .insert(newInventory)
+            .then(() => {
+                res.status(201).json(newInventory);
+            })
+            .catch((err) => {
+                res.status(400).send(`Error creating new inventory item: ${err}`)
+            });
+        } else {
+            res.status(400).send(
+                `Error: Warehouse does not exist with id ${req.body.warehouse_id}`
+                )
+        }
+    })
+    .catch((err) =>
+      res
+        .status(400)
+        .send(
+          `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
+        )
+    );
+};
+=======
       res.status(404).send(`Invalid inventory ID: ${error}`); // 404 not found status
     });
 };
@@ -121,3 +180,4 @@ exports.getSingleInventoryDetail = (req, res) => {
       res.status(404).send(`Invalid inventory ID: ${error}`); // 404 not found status
     });
 };
+>>>>>>> develop
