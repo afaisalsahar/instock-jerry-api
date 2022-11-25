@@ -7,6 +7,7 @@ const { DB_LOCAL_NAME, DB_LOCAL_USER, DB_LOCAL_PASS, DB_LOCAL_HOST } =
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+
 module.exports = {
     client: "mysql2",
     connection: {

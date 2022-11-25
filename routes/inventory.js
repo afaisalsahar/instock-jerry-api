@@ -1,24 +1,20 @@
 // require variables
-const express = require('express');
-const inventoryController = require('../controllers/inventoryController');
+const express = require("express");
+const inventoryController = require("../controllers/inventoryController");
 
-const router  = express.Router();
-
-router
-    .route('/')
-    .get(inventoryController.getAll)
-    .post((req, res) => {
-
-    })
+const router = express.Router();
 
 router
-    .route('/:id')
-    .get((req, res) => {
+  .route("/")
+  .get(inventoryController.getAll)
+  .post((req, res) => {});
 
-    })
-    .put((req, res) => {
+router
+  .route("/:id")
+  .get(inventoryController.getSingleInventoryDetail)
+  .put(inventoryController.updateInventory)
 
-    })
-    .delete(inventoryController.deleteItem); // Delete inventory item, given ID. 
+  .delete((req, res) => {})
+  .delete(inventoryController.deleteItem); // Delete inventory item, given ID.
 
 module.exports = router;

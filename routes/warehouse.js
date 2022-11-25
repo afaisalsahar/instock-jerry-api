@@ -1,9 +1,9 @@
 // require variables
-const express = require('express');
-const router  = express.Router();
+const express = require("express");
+const router = express.Router();
 
 // Controllers
-const warehouseController = require('../controllers/warehouseController')
+const warehouseController = require("../controllers/warehouseController");
 
 router
     .route('/')
@@ -12,10 +12,13 @@ router
         
 router
     .route('/:id')
+        .get(warehouseController.getSingleWarehouse)
         .delete(warehouseController.deleteWarehouse);
 
 router
     .route('/:id/inventories')
         .get(warehouseController.warehouseInventories); // GET list of inventories for a specific warehouse
+
+router.route("/:id/inventories").get(warehouseController.warehouseInventories); // GET list of inventories for a specific warehouse
 
 module.exports = router;
