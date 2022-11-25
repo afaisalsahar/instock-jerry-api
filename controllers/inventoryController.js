@@ -1,14 +1,6 @@
-<<<<<<< HEAD
-const { param } = require('../routes/warehouse');
 const { v4: uuid } = require("uuid");
 const knex = require('knex')(require('../knexfile'));
-=======
-const { param } = require("../routes/warehouse");
 
-const knex = require("knex")(require("../knexfile"));
->>>>>>> develop
-
-const warehouseController = require("./warehouseController");
 
 // get list of all inventory items
 exports.getAll = (req, res) => {
@@ -33,6 +25,8 @@ exports.getAll = (req, res) => {
 
 // edit a single inventory item
 exports.updateInventory = (req, res) => {
+    const quantity = req.body.quantity.toString();
+    console.log(typeof quantity);
   // Validate the request body for required data
   if (
     !req.body.item_name ||
@@ -40,7 +34,7 @@ exports.updateInventory = (req, res) => {
     !req.body.category ||
     !req.body.status ||
     !req.body.warehouse_id ||
-    !req.body.quantity
+    !quantity
   ) {
     return res
       .status(400)
@@ -60,7 +54,7 @@ exports.updateInventory = (req, res) => {
           category: req.body.category,
           status: req.body.status,
           warehouse_id: req.body.warehouse_id,
-          quantity: req.body.quantity,
+          quantity: quantity
         };
         // make call to get updated item
         knex("inventories")
@@ -105,7 +99,6 @@ exports.deleteItem = (req, res) => {
             });
     })
     .catch((error) => {
-<<<<<<< HEAD
         res.status(404).send(`Invalid inventory ID: ${error}`); // 404 not found status
     })
 }
@@ -155,10 +148,7 @@ exports.addInventoryItem = (req, res) => {
         )
     );
 };
-=======
-      res.status(404).send(`Invalid inventory ID: ${error}`); // 404 not found status
-    });
-};
+
 
 // Get details of single inventory item
 exports.getSingleInventoryDetail = (req, res) => {
@@ -180,4 +170,3 @@ exports.getSingleInventoryDetail = (req, res) => {
       res.status(404).send(`Invalid inventory ID: ${error}`); // 404 not found status
     });
 };
->>>>>>> develop
