@@ -114,29 +114,30 @@ exports.warehouseInventories = (req, res) => {
     .catch((error) => {
         res.status(404).send(`Invalid warehouse ID: ${error}`);
     })
-}
-  knex("inventories")
-    .select(
-      "id",
-      "warehouse_id",
-      "item_name",
-      "description",
-      "category",
-      "status",
-      "quantity"
-    )
-    .where({ warehouse_id: req.params.id })
-    .then((data) => {
-      res.status(200).json(data);
-    })
-    .catch((err) =>
-      res
-        .status(400)
-        .send(
-          `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
-        )
-    );
 };
+  exports.warehouseInventories = (req, res) => {
+    knex("inventories")
+      .select(
+        "id",
+        "warehouse_id",
+        "item_name",
+        "description",
+        "category",
+        "status",
+        "quantity"
+      )
+      .where({ warehouse_id: req.params.id })
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) =>
+        res
+          .status(400)
+          .send(
+            `Error retrieving inventories for Warehouse ${req.params.id} ${err}`
+          )
+      );
+  };
 
 // Get single warehouse details
 exports.getSingleWarehouse = (req, res) => {
