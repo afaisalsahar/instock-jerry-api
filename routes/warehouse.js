@@ -6,15 +6,18 @@ const router = express.Router();
 const warehouseController = require("../controllers/warehouseController");
 
 router
-  .route("/")
-  .get(warehouseController.getAll)
-  .post(warehouseController.addNew); // CREATE new warehouse
+    .route('/')
+        .get(warehouseController.getAll)
+        .post(warehouseController.addNew); // CREATE new warehouse
+        
+router
+    .route('/:id')
+        .get(warehouseController.getSingleWarehouse)
+        .delete(warehouseController.deleteWarehouse);
 
 router
-  .route("/:id")
-  .get(warehouseController.getSingleWarehouse)
-  .put((req, res) => {})
-  .delete((req, res) => {});
+    .route('/:id/inventories')
+        .get(warehouseController.warehouseInventories); // GET list of inventories for a specific warehouse
 
 router.route("/:id/inventories").get(warehouseController.warehouseInventories); // GET list of inventories for a specific warehouse
 

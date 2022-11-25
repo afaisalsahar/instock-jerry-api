@@ -102,12 +102,41 @@ exports.warehouseInventories = (req, res) => {
     );
 };
 
-// Get single warehouse details
-exports.getSingleWarehouse = (req, res) => {
+// DELETE Warehouse
+exports.deleteWarehouse = (req, res) => {
   knex("warehouses")
     .where({ id: req.params.id })
     .then((data) => {
-      res.status(200).json(data[0]);
+      !data.length
+        ? res.status(404).send("Warehouse ID is not found")
+        : knex("warehouses")
+            .del()
+            .where({ id: req.params.id })
+            .then(() => {
+              res.sendStatus(204);
+            })
+            .catch((error) => {
+              res.status(400).send(`Invalid warehouse: ${error}`);
+            });
+    })
+    .catch((error) => {
+      res.status(404).send(`Invalid warehouse ID: ${error}`);
+    });
+};
+
+// Get single warehouse details
+exports.getSingleWarehouse = (req, res) => {
+  const { id } = req.params;
+
+  knex("warehouses")
+    .where({ id: req.params.id })
+    .then((data) => {
+      if (data.length === 0)
+        return res
+          .status(400)
+          .json({ message: `Warehouse ${id} does not exist` });
+
+      return res.status(200).json(data[0]);
     })
     .catch((err) =>
       res
