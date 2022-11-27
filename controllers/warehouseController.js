@@ -146,3 +146,57 @@ exports.getSingleWarehouse = (req, res) => {
         )
     );
 };
+
+// Update Warehouse Details
+
+exports.updateWarehouse = (req, res) => {
+  if (
+    !req.body.warehouse_name ||
+    !req.body.address ||
+    !req.body.city ||
+    !req.body.country ||
+    !req.body.contact_name ||
+    !req.body.contact_position ||
+    !req.body.contact_phone ||
+    !req.body.contact_email
+  ) {
+    return res
+      .status(400)
+      .send(
+        "Please make sure to provide necessary info"
+      );
+  }
+
+  knex("warehouses")
+    .where({ id: req.params.id })
+    .then((response) => {
+      if (response.length !== 0) {
+        const editedWarehouse = {
+          warehouse_name: req.body.warehouse_name,
+          address: req.body.address,
+          city: req.body.city,
+          country: req.body.country,
+          contact_name: req.body.contact_name,
+          contact_position: req.body.contact_position,
+          contact_phone: req.body.contact_phone,
+          contact_email: req.body.contact_email,
+        };
+
+        knex("warehouses")
+        .where({ id: req.params.id })
+        .update(editedWarehouse)
+        .then(() => {
+          //response returns status 200 when successful
+          res.status(200).json(editedWarehouse);
+        })
+        .catch((err) => {
+          res.status(400).send(`Error retrieving warehouse ${err}`);
+        });
+      } else {
+        res.status(404).send(`The ID does not exist`);
+      }
+    })
+        .catch((err) => {
+        res.status(400).send(`Error retrieving Warehouse ${err}`);
+    });
+  }
