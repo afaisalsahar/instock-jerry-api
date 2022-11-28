@@ -104,7 +104,6 @@ exports.deleteItem = (req, res) => {
 // create a new inventory item
 
 exports.addInventoryItem = (req, res) => {
-  console.log(req.body.quantity);
   if (
     !req.body.item_name ||
     !req.body.description ||
